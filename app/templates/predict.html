@@ -1,0 +1,67 @@
+{% extends "layout/base.html" %}
+
+{% block head %}
+  <link href="{{ url_for('static', filename='css/predict.css') }}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+  
+    <div class="row">
+        
+            <br>
+            <br>
+            <br>
+            <br>
+   </div>
+   <div class="row">
+       <div class="col-md-12">    
+       <font size=40>
+        <center>
+          Predicted probability of funding:
+        </center>
+        </div>
+    </div>
+    <div class = "row">
+      <div class ="col-md-6">
+        <center>
+          <br>
+          <br>
+           <img src="/static/images/kickstarter_logo.png" width=50%> <br>
+          
+          {{(100*kickwin)|round(1)}} %!
+        </center>
+        </div>
+
+        <div class="col-md-6">
+          <center>
+            <br>
+        <img src="/static/images/indiegogo_logo1.png">
+   <br>
+          {{(100*indiewin)|round(1)}}%!
+        </font>
+        </center>
+        </div>
+      </div>
+      <div class = "row">
+        <br>
+        <br>
+        <font size=25>
+        <center>
+          {{ verdict }}
+        </font>
+</font>
+       
+          <p></p>
+          <p></p>
+        
+      </div>
+{% endblock %}
+
+{% block footer %}
+  {% include "include/footer.html" %}
+{% endblock %}
+
+{% block scripts %}
+ 
+
+{% endblock %}

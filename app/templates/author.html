@@ -1,0 +1,30 @@
+{% extends "layout/base.html" %}
+
+{% block content %}
+  <div id="wrap">
+    <div class="container">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-5">
+            <img src="https://people.stanford.edu/mtrotter/sites/default/files/Mer_at_August_smaller.jpg"
+                 class="img-responsive" height="200px" width="200px"/>
+          </div>
+          <div class="col-md-5">
+            <h3 class="text-justify text-muted">This is the only photo I could think of that is online </h3>
+            <p class="lead">I would like all of your data please.</p>
+            <p class="lead">Another thing about me with a <a href="http://www.recaption.com/uploads/53754f8f527677530.jpg">Link Of Mystery</a>.</p>
+            <p class="lead">
+              This link looks official
+              <a href="http://mashable.com/wp-content/uploads/2013/07/Winnie-the-Pooh.gif">but it's just my favourite .gif</a>.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+{% endblock %}
+
+{% block footer %}
+  {% include "include/footer.html" %}
+{% endblock %}

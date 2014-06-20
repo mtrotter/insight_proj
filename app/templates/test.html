@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+</head>
+<body>
+
+<section id="intro" class="container">
+    <div class="container">
+        <div class="row">
+            <p><input id="input" type="text" class="form-control" placeholder="Input a 3 character string."></p>
+            <p><button type="submit" id="result" class="btn btn-default">Get results</button></p>
+            <div id="output" class="list-group">
+            </div>
+        </div>
+    </div>
+</section>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
+
+<script type=text/javascript>
+    $SCRIPT_ROOT = {{ request.script_root | tojson | safe }};
+</script>
+<script type=text/javascript>
+    $(function () {
+        var output = $('div#output.list-group')
+        var button = $('button#result.btn.btn-default')
+
+        button.bind('click', function () {
+            output.empty()
+
+            $.post('/results', {
+                input: $('input#input.form-control').val()
+            })
+                    .done(function (get_results) {
+
+                        var heading = $('<div/>')
+                                .addClass('panel-heading')
+                                .appendTo(output)
+
+                        $('<h3/>')
+                                .addClass('panel-title')
+                                .text('Results')
+                                .appendTo(heading)
+
+                        var items = get_results['results']
+                        var list = document.createElement('p')
+                        $.each(items, function () {
+                            var a = $('<a/>')
+                                    .addClass('list-group-item')
+                                    .attr('href', this['link'])
+                                    .text(this['text'])
+                                    .appendTo(list)
+                        })
+                        output.append(list)
+                    })
+                    .fail(function () {
+                        $('<div/>')
+                                .addClass('alert alert-danger')
+                                .text('Invalid input!')
+                                .appendTo(output)
+                    });
+        });
+    });
+</script>
+</body>
+</html>
