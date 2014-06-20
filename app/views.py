@@ -29,7 +29,7 @@ from operator import itemgetter
 @app.route('/', methods=['POST','GET'])
 @app.route('/home', methods=['POST','GET'])
 def home():
-    form=Form()
+    form=request.form
     return render_template('home.html',form=form)
 
 
