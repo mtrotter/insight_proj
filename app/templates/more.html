@@ -14,21 +14,21 @@
             <br>
    </div>
    <div class="row">
-       <div class="col-md-12 text-center">    
-       
-          <h2>
+       <div class="col-md-12">    
+       <font size=40>
+        <center>
           Results!
-          </h2>
-      
-          </div>
+        </center>
+      </font>
+        </div>
     </div>
     <div class = "row">
 
-      <div class ="col-md-3">
+      <div class ="col-md-4">
         <br><br>
               </div>
 
-      <div class ="col-md-4 text-center">
+      <div class ="col-md-4">
         <center>
           <br>
           <br>
@@ -40,7 +40,7 @@
         </center>
       </div>
 
-        <div class="col-md-4 text-center">
+        <div class="col-md-4">
           <center>
             
         <img src="/static/images/indiegogo_logo1.png" width=300px>
@@ -57,19 +57,20 @@
 </div>
       <div class = "row">
 
-        <div class = "col-md-3" align="right">
+        <div class = "col-md-4" align="right">
     
-        
-        Probability of acheiving current funding goal:
-      
+          <font size = 6>
+        Probability of acheiving funding goal:
+      </center>
 </div> 
 
-        <div class = "col-md-4 text-center">
+        <div class = "col-md-4">
+            <center>
           {{(100*kickwin)|round(1)}}%
        </div>
 
-       <div class = "col-md-4 text-center">
-         
+       <div class = "col-md-4">
+          <center>
          {{(100*indiewin)|round(1)}}%
       </div>
 
@@ -78,19 +79,17 @@
      
 <div class ="row">
   <center>
-<div class = "col-md-3" align="right">
+<div class = "col-md-4" align="right">
   <br><br>
   Predicted funding: 
 </div>
           <div class="col-md-4">
-            
+             <font size=6>
              <br>
         <br>
             ${{(indiecash)|round(2)}}!
             <br>
-            <form action = '/eval'>
-            <button type="submit", action="/eval", class="btn btn-large btn-success" style="height:40px">Optimize This!</button>
-          </form>
+            <button type="submit" action = "/more", class="btn btn-large btn-success" style="height:40px">Optimize This!</button>
           </div>
           <div class = "col-md-4">
              <br>
@@ -98,11 +97,7 @@
             ${{(kickcash)|round(2)}}!
               <br>
             <center>
-          <form action = "/eval">
-            <input type = "hidden", name = "platform", value = "Kickstarter">
-          <button type="submit", class="btn btn-large btn-success" style="height:40px">Optimize This!
-          </button>
-        </form>
+          <button type="submit" action = "/more", class="btn btn-large btn-success" style="height:40px">Optimize This!</button>
           </div>
 
         </p>
@@ -113,14 +108,14 @@
        <div class = "row">
         <br>
         <br>
-       <!--  <font size=6>
+        <font size=6>
         <center>
           <br>
        <br>
           <p>
           {{ verdict }}
-        </font> -->
-
+        </font>
+</font>
        
          
           

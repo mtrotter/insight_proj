@@ -15,15 +15,18 @@
             <center>
             <h1>Should I Kick or Should I GoGo?</h1>
             </p>
+          </div>
+        </div>
+
+        <div id="wrap">
+        <p class="lead">
+          <h3>
+          Tell me a little about your campaign below, and I'll predict your future:
+        </h3>
+        </p>
         </div>
     </div>
 
-    <div id="wrap">
-        <p class="lead">
-          Tell me a little about your campaign below, and I'll predict your future:
-        </p>
-    </div>
-    
     <div class ="row">
       <div class="row">
         <div class="col-md-4">
@@ -36,11 +39,16 @@
             <input type="text" name="input-name" id="projects" class="form-control input-medium"  placeholder="Cants! They're Pants for Cats!" >
             </div>   
           </div>
-
           <div class="form-group">
           <label for="category" class="col-md-20 control-label">Category:</label>
             <div class="col-md-20">
-            <input type="text" name="category" id="projects" class="form-control input-medium"  placeholder="Art" >
+            <select name="category" id="category" class="form-control input-medium">
+                <option value="1" selected>Art</option>
+                <option value="2">Technology</option>
+                <option value="3">Music</option>
+                <option value="4">Fashion</option>
+                <option value = "5">Games</option>
+            </select>
             </div>   
           </div>
 
@@ -57,37 +65,107 @@
             <input type="text" name="goal" id="projects" class="form-control input-medium"  placeholder="1000" >
             </div>   
           </div>
+           <div class = "form-group">
+          <label for "fbcon" class="col-md-20 control-label">Will you connect to Facebook?</label>
+            <input type="checkbox" name="fbcon" value="Yes">Yes
+            <input type="checkbox" name="fbnocon" value="No">No 
+          </div>
 
           <div class="fbfriends">
           <label for="fbfriends" class="col-md-20 control-label">Number of Facebook friends:</label>
             <div class="col-md-20">
-            <input type="text" name="fbfriends" id="projects" class="form-control input-medium"  placeholder="0" >
+            <input type="text" name="fbfriends" id="projects" class="form-control input-medium"  placeholder = "0" default="0" >
+            </div>   
+          </div>
+      
+
+    </div>
+
+      <div class="col-md-4">
+     
+          <div class="form-group">
+          <label for="n_vids" class="col-md-20 control-label">How many cool videos do you have?</label>
+            <div class="col-md-20">
+            <select name="nvids" id="nvids" class="form-control input-medium">
+              <option value="1" selected>1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+              </select>
+            </div>   
+          </div>
+          <div class="form-group">
+          <label for="n_pics" class="col-md-20 control-label">How many pretty pictures?:</label>
+            <div class="col-md-20">
+            <select name="npics" id="npics" class="form-control input-medium">
+              <option value="1" selected>1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+              </select>
             </div>   
           </div>
 
-
-          <div class="col-md-offset-2 col-md-10">
-          <button type="submit" onclick = "showPreds()" class="btn btn-large btn-success" style="height:40px">Hit me!</button>
+          <div class="form-group">
+          <label for="nlinks" class="col-md-20 control-label">Links to other related sites?:</label>
+            <div class="col-md-20">
+            <select name="nlinks" id="nlinks" class="form-control input-medium">
+              <option value="1" selected>1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+              </select>
+            </div>   
           </div>
-        </div>
-     </div> 
-   </form>
 
-  <div class="row">
-      <div class="col-md-4">
+          <div class="form-group">
+          <label for="perks" class="col-md-20 control-label">How many different perks will you offer?:</label>
+            <div class="col-md-20">
+            <select name="perks" id="perks" class="form-control input-medium">
+                <option value="1" selected>1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+            </select>
 
-      
-        </div>
+            </div>   
+          </div>
+
+           <div class = "form-group">
+          <label for "tshirt" class="col-md-20 control-label">Can I get a tshirt?</label>
+            <input type="checkbox" name="yest" value="Yes">Yes
+            <input type="checkbox" name="not" value="No">No 
+          </div>
+
+          <div class="fbfriends">
+          <label for="fbfriends" class="col-md-20 control-label">Number of Facebook friends:</label>
+            <div class="col-md-20">
+            <input type="text" name="fbfriends" id="projects" class="form-control input-medium"  placeholder = "0" default="0" >
+            </div>   
+          </div>
+</div>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+         <br>
+        <br>
+        <br>
+         <div class="col-md-3">
+          <center>
+          <button type="submit" class="btn btn-large btn-success" style="height:40px">Hit me!</button>
+          </div>
+     
 
       </div>
     </div>  
-            <!-- DISPLAY SOME INFORMATION -->
-<script>
-function showPreds(){
-  document.getElementById("despfriends").innerHTML=request.fbfriends;
-}
-</script>
-<p id = "despfriends"></p>
+  
+     
+     <!-- DISPLAY SOME INFORMATION -->
+</form>
 
            
 

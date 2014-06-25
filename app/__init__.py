@@ -23,8 +23,11 @@ app.secret_key = 'Testing BS'
 app.config.from_pyfile('settings/development.cfg')
 
 
-app.kick_predict = pickle.load(open('kick_predictor.pkl','rb'))
-app.indie_predict = pickle.load(open('indie_predictor.pkl','rb'))
+app.kick_classify = pickle.load(open('kick_classifier.pkl','rb'))
+app.indie_classify = pickle.load(open('indie_classifier.pkl','rb'))
+
+app.kick_regress = pickle.load(open('kick_regressor.pkl','rb'))
+app.indie_regress = pickle.load(open('indie_regressor.pkl','rb'))
 
 # Production configuration settings
 # To have these override your development settings,
