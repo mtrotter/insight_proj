@@ -14,118 +14,71 @@
             <br>
    </div>
    <div class="row">
-       <div class="col-md-12 text-center">    
-       
-          <h2>
-          Results!
-          </h2>
-      
-          </div>
-    </div>
-    <div class = "row">
 
-      <div class ="col-md-3">
-        <br><br>
-              </div>
-
-      <div class ="col-md-4 text-center">
-        <center>
-          <br>
-          <br>
-           <br>
-          <br>
-           <br>
-          <br>
-           <img src="/static/images/kickstarter_logo.png" width=300px> <br>
-        </center>
-      </div>
-
-        <div class="col-md-4 text-center">
-          <center>
-            
-        <img src="/static/images/indiegogo_logo1.png" width=300px>
-          <br>
-          
-        </font>
-        </center>
-        </div>
-
-
-      </div>
-<div class = "row">
-  <br><br><br>
-</div>
-      <div class = "row">
-
-        <div class = "col-md-3" align="right">
-    
-        
-        Probability of acheiving current funding goal:
-      
-</div> 
-
-        <div class = "col-md-4 text-center">
-          {{(100*kickwin)|round(1)}}%
-       </div>
-
-       <div class = "col-md-4 text-center">
-         
-         {{(100*indiewin)|round(1)}}%
-      </div>
-
-    </div>
-
-     
-<div class ="row">
-  <center>
-<div class = "col-md-3" align="right">
-  <br><br>
-  Predicted funding: 
-</div>
-          <div class="col-md-4">
-            
-             <br>
-        <br>
-            ${{(indiecash)|round(2)}}!
-            <br>
-            <form action = '/eval'>
+  <div class = "container">
+    <table class = "table">
+    <tr>
+      <td></td>
+      <td style="vertical-align: middle;"> <img src="/static/images/kickstarter_logo.png" width=300px></td>
+      <td>  <img src="/static/images/indiegogoflat.jpeg" width=300px></td>
+    </tr>
+  <tr>
+      <td><p class = "lead">Probability of successful funding:</p></td>
+      <td>  {{(100*kickwin)|round(1)}}%</td>
+      <td>{{(100*indiewin)|round(1)}}%</td>
+    </tr>
+<tr>
+      <td><p class = "lead">Expected pledges</p></td>
+      <td> ${{(kickcash)|round(2)}}</td>
+      <td>${{(indiecash)|round(2)}}</td>
+    </tr>
+<tr>
+  <td></td>
+  <td>
+              <div class="form-group">
+            <form action = "/eval">
+          <input type = "hidden", name = "platform", value = "Kickstarter">
             <button type="submit", action="/eval", class="btn btn-large btn-success" style="height:40px">Optimize This!</button>
-          </form>
-          </div>
-          <div class = "col-md-4">
-             <br>
-        <br>
-            ${{(kickcash)|round(2)}}!
-              <br>
-            <center>
-          <form action = "/eval">
-            <input type = "hidden", name = "platform", value = "Kickstarter">
-          <button type="submit", class="btn btn-large btn-success" style="height:40px">Optimize This!
-          </button>
-        </form>
-          </div>
+          </form></td>
+      <td>
+        <div class = "form group">
+        <form action = '/eval'>
+              <input type = "hidden", name = "platform", value = "Indiegogo">
+            <button type="submit", action="/eval", class="btn btn-large btn-success" style="height:40px">Optimize This!</button>
+          </form></td>
+    </tr> 
+</table>
+</div>
 
-        </p>
-          <p></p>
-        
-      </div>
+</div>
 
-       <div class = "row">
-        <br>
-        <br>
-       <!--  <font size=6>
-        <center>
-          <br>
-       <br>
-          <p>
-          {{ verdict }}
-        </font> -->
+<div class = "row">
+  <div class = "container">
 
-       
+<table class = "table">
+    <tr>
+<td align = "center">
+  {{verdict}}
+</td>
+      </tr>
+    </table>
+
+    </div></div>
+
+
+<table class ="table">
+
+  <div class="row">
+
+  <div class = "container">
+ 
+  </table>
+</div>
+</div>
          
           
           
-</div>
+
 {% endblock %}
 
 {% block footer %}

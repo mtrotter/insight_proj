@@ -1,4 +1,4 @@
-from flask import render_template
+from flask import render_template, session
 from app import app, host, port, user, passwd, db
 from app.helpers.database import con_db, query_db
 import flask_wtf
@@ -35,7 +35,20 @@ import os
 def home():
     form=request.form
 
-    #result = request.form['fbfriends']
+    
+        #session[key] = value
+
+    
+
+
+
+
+
+
+
+
+
+
     return render_template('home.html',form=form)
 
 
@@ -84,114 +97,153 @@ def more():
 @app.route('/predict', methods=['GET','POST'])
 def predict():
     #set defaults for analysis
-    print(request.form)
-    defaultvecs = set_Defaults()
-    kickdefault = defaultvecs[0]
-    indiedefault = defaultvecs[1]
-    if (request.form["fbcon"] != None and request.form["fbcon"] == "Yes"):
+    #print(request.form)
+    #print(request.form['fbcon'])
+   # defaultvecs = set_Defaults()
+    #kickdefault = defaultvecs[0]
+    #indiedefault = defaultvecs[1]
+
+    for key, value in request.form.iteritems():
+        if key == 'input-name':
+            session[key] = (value)
+        else:
+            session[key]=float(value)
+
+
+    print(session)
+
+
+    if int(session["fbcon"]) == 1:
         userFbCon=1
-        print('yes')
+        #print('yes')
     else:
          userFbCon=0
-    print(request.form)
+    #print(request.form)
 
     #Process form data
-    userTitle = str(request.form['input-name'])
-    #return str(request.form)
-    inputcat = request.form['category']
+    #userTitle = str(session['input-name'])
+   
+    inputcat = session['category']
     if inputcat == 2: #technology
         indieUserCat = 19
+        session['indieUserCat']=19
         kickUserCat = 13
+        session['kickUserCat']=13
     elif inputcat == 1: #art
         indieUserCat  = 1
+        session['indieUserCat']=1
         kickUserCat = 0
+        session['kickUserCat']=0
     elif inputcat == 3: #music
         indieUserCat = 14
+        session['indieUserCar']=14
         kickUserCat = 10
+        session['kickUserCat']=10
     elif inputcat >3:
         indieUserCat = 8 #arbitrary lie
+        session['indieUserCat']=8
         kickUserCat = 8 #arbitrary lie
-
-    #userTshirt = request.form['tshirt']
+        session['kickUserCat']=8
+    
+    userTshirt = session['tshirt']
     userTshirt = 0
-    userVids = 0
+    userVids = int(session['nvids'])
     if userVids>0:
-        userHasVid = 1
+        session['hasvid'] = 1
+        userHasVid=1
     else:
         userHasVid = 0
-    userLinks = 0
+        session['hasvid']=0
+    userLinks = int(session['nlinks'])
     if userLinks >0:
         userHasWeb = 1
+        session['hasweb']=1
     else:
         userHasWeb=0
-    userPics = 1
-    userFbFriends = int(request.form['fbfriends'])
+        session['hasweb']=0
+    print(userHasWeb)
+    userPics = int(session['npics'])
+    userFbFriends = int(session['fbfriends'])
     
     if userFbFriends > 0:
         userConFb = 1
     else:
         userConFb = 0
-    userNRewards = 5
-    user500 = 2
-    user200 = 2
-    userDuration = int(request.form['duration'])
+    userNRewards = session['perks']
+    user500 = 0
+    user200 = 0
+    session['u500']=0
+    session['u200']=0
+    if session['perks']>2:
+        user500=1
+        user200=1
+        session['u500']=1
+        session['u200']=1
 
-    userGoal = int(request.form['goal'])
+    userDuration = int(session['duration'])
 
-    # userNRewards = request.form['nrewards']
-    # user500 = request.form['big_rewards']
-    # user200 = request.form['med_rewards']
+    userGoal = float(session['goal'])
 
+    #userNRewards = session['perks']
+    # user500 = session['big_rewards']
+    # user200 = session['med_rewards']
 
+    #print(session['duration'])
     # THESE MUST BE REORDERED ALPHABETICALLY AND ADD NVIDEOS=userVids IN THERE TOO!
     indie_vector =np.array([[userConFb, userGoal, userHasVid, userHasWeb, indieUserCat, userNRewards, userFbFriends, userPics, userLinks, userVids, userDuration, user200, user500, userTshirt]])
     kick_vector = np.array([[userConFb, userGoal, userHasVid, userHasWeb, kickUserCat, userNRewards, userFbFriends, userPics, userLinks, userVids, userDuration, user200, user500, userTshirt]])
-
+    print(indie_vector)
 
     kick_win = app.kick_classify.predict_proba(kick_vector)[0][1]
 
     indie_win = app.indie_classify.predict_proba(indie_vector)[0][1]
 
-    print(indie_win)
+    #print(indie_win)
   
     #print(type(userTitle))
-    #print(userCat)
     if kick_win > indie_win:
-        verdict = "You should probably Kick it"
+        verdict = "If it was me, I'd Kick it"
     else:
-        verdict = "You should definitely GoGo"
+        verdict = "Looks like you should definitely GoGo"
 
     kick_cash = app.kick_regress.predict(kick_vector)*userGoal
     indie_cash = app.indie_regress.predict(indie_vector)*userGoal
 
-    return render_template('predict.html',indiewin = indie_win, kickwin = kick_win, kickcash = kick_cash, indiecash = indie_cash, verdict = verdict)
 
 
-@app.route("/eval",methods=['GET','POST'])
+
+    
+
+
+
+   
+
+    return render_template('predict.html', indiewin = indie_win, kickwin = kick_win, kickcash = kick_cash, indiecash = indie_cash, verdict = verdict)
+
+
+@app.route("/eval", methods=['GET','POST'])
 def eval():
 
-
     #NEED TO GET IN THE indie_vector and kick_vector data from home
+    #indieUserCat = 0
+    #kickUserCat = 2
+    #print request.form['platform']
+    
+    # userTshirt = 0
+    # userVids = 6
+    # userLinks = 10
+    # userHasWeb = 1
+    # userPics = 4
+    # userFbFriends = 100
+    # userHasVid=1
+    # userConFb = 1
 
-    indieUserCat = 0
-    kickUserCat = 2
- 
-    #userTshirt = request.form['tshirt']
-    userTshirt = 0
-    userVids = 6
-    userLinks = 10
-    userHasWeb = 1
-    userPics = 4
-    userFbFriends = 30
-    userHasVid=1
-    userConFb = 1
+    # userNRewards = 10
+    # user500 = 2
+    # user200 = 2
+    # userDuration = 30
 
-    userNRewards = 10
-    user500 = 2
-    user200 = 2
-    userDuration = 30
-
-    userGoal = 3000
+    # userGoal = 3000
 
 
     # loan_id = pickle.load( open( "passloan.pkl", "rb" ) )
@@ -216,14 +268,42 @@ def eval():
 
     # clf = pickle.load( open( "alg.pkl", "rb" ) )
     
-    requested_loan_amount = userGoal
-    requested_repayment_term = userFbFriends
-    binreqLoanAmount=int(round(userGoal,-2))/100
-
-    if requested_repayment_term > 100:
-        month_pred = [10*i +(requested_repayment_term-100) for i in range(20)]
+    requested_loan_amount = float(session['goal'])
+   
+    requested_repayment_term = float(session['fbfriends'])
+   
+    binreqLoanAmount=int(round(requested_loan_amount,-2)/100)
+    if requested_repayment_term >=2000:
+         month_pred = [250*(i+1) for i in range(20)]
+         gridxpad = -1
+         friendbin = 250
+         midpoint = 2500
+    elif requested_repayment_term >=1000:
+         month_pred = [100*(i+1) for i in range(20)]
+         gridxpad = -1
+         friendbin = 100
+         midpoint = 1000
+    elif requested_repayment_term >=500:
+         month_pred = [50*(i+1) for i in range(20)]
+         gridxpad = -1.0
+         friendbin = 50
+         midpoint = 500
+    elif requested_repayment_term >=300:
+         month_pred = [25*(i+1) for i in range(20)]
+         gridxpad = -1.1
+         friendbin = 25
+         midpoint = 250
+    elif requested_repayment_term >= 100:
+      #  month_pred = [15*i +(requested_repayment_term-100) for i in range(20)]
+         month_pred = [15*(i+1) for i in range(20)]
+         gridxpad = -1.1
+         friendbin =15
+         midpoint = 150
     else:
-        month_pred = [(i+1) for i in range(20)]
+        month_pred = [5*(i+1) for i in range(20)]
+        gridxpad = -1.25
+        friendbin = 5
+        midpoint = 50
 
     roundedReqAmt = int(math.floor(requested_loan_amount/100))
 
@@ -240,18 +320,18 @@ def eval():
         for month in month_pred:
             
             #month = duration, amount = goal
-            indie_vector =np.array([[userConFb, amount, userHasVid, userHasWeb, indieUserCat, userNRewards, userFbFriends, userPics, userLinks, userVids, month, user200, user500, userTshirt]])
-            kick_vector = np.array([[userConFb, amount, userHasVid, userHasWeb, kickUserCat, userNRewards, userFbFriends, userPics, userLinks, userVids, month, user200, user500, userTshirt]])
+            indie_vector =np.array([[session['fbcon'], amount, session['hasvid'], session['hasweb'], session['indieUserCat'], session['perks'], session['fbfriends'], session['npics'], session['npics'], session['npics'], month, session['u200'], session['u500'], session['tshirt']]])
+            kick_vector = np.array([[session['fbcon'], amount, session['hasvid'], session['hasweb'], session['kickUserCat'], session['perks'], session['fbfriends'], session['npics'], session['npics'], session['npics'], month, session['u200'], session['u500'], session['tshirt']]])
 
             #print(kick_vector)
             #xin = np.append(continent_vec,sector_vec)
             #xin = np.append(xin,np.array( [borrowers_gender,loan_info[0]['description_num_languages'],amount,posted_date_months,month ] ))
 
             #xin = np.array( [borrower_gender_map[loan_info[0]['borrowers_gender']],loan_info[0]['description_num_languages'],amount,country_map[loan_info[0]['location_country']], sector_map[loan_info[0]['sector']],activity_map[loan_info[0]['activity']],posted_date_months,loan_info[0]['partner_id'],month ]  )
-            if request.form('platform')=='Kickstarter':
-                predprob = round(app.kick_classify.predict_proba(kick_vector)[0][1],1)
-            else:
-                predprob = round(app.indie_classify.predict_proba(indie_vector)[0][1],1)
+            #if request.form['platform']=='Kickstarter':
+            predprob = round(app.kick_classify.predict_proba(kick_vector)[0][1],2)
+            
+            #predprob = round(app.indie_classify.predict_proba(indie_vector)[0][1],1)
             #print(predprob)
             predMatrix.append((amount, month, predprob) )
     
@@ -266,14 +346,9 @@ def eval():
 
     amount_pred_str = str(amount_pred)
     month_pred_str = str(month_pred)
-    print predMatrix
-    #print amount_pred_str
-    print roundedReqAmt
-    print requested_repayment_term
-    print gridAmtSet
-    print binreqLoanAmount
-
-    return render_template('eval.html',roundedReqAmt=roundedReqAmt,requested_repayment_term=requested_repayment_term,gridAmtSet=gridAmtSet,amount_pred_str=amount_pred_str,month_pred_str=month_pred_str,binreqLoanAmount=binreqLoanAmount)
+  
+    form = request.form
+    return render_template('eval.html', form = form, roundedReqAmt=roundedReqAmt,requested_repayment_term=requested_repayment_term,gridAmtSet=gridAmtSet,amount_pred_str=amount_pred_str,month_pred_str=month_pred_str,binreqLoanAmount=binreqLoanAmount, gridxpad= gridxpad, friendbin = friendbin)
 
 @app.route('/process', methods=['GET','POST'])
 def process():

@@ -1,7 +1,7 @@
 {% extends "layout/base.html" %}
 
 {% block head%}
-<head>
+
                                             
         <script type="text/javascript" src='static/jquery/jquery-2.0.3.min.js'></script>
         <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
@@ -30,7 +30,7 @@
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
          <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
         <![endif]-->
-    </head>
+  
 {% endblock %}
 
 {% block content %}
@@ -61,7 +61,6 @@
     	<div class="container w">
              <br><br>
             <h2>Optimize your Campaign for Funding Success </h2>
-            
            
         
         <style>
@@ -105,8 +104,10 @@
             month_pred_str = {{month_pred_str}}
             amount_pred_str = {{amount_pred_str}}
             roundedReqAmt={{roundedReqAmt}}
-            requested_repayment_term = {{100}}
-            // hardcode fbfriends to 1000 for the he
+            requested_repayment_term = {{requested_repayment_term}}
+            friendbin = {{friendbin}}
+            midpoint = {{midpoint}}
+            gridxpad = {{gridxpad}}
             gridAmtSet = {{gridAmtSet}}
             binreqLoanAmount={{ binreqLoanAmount }}
         </script>

@@ -5,7 +5,7 @@ var margin = { top: 50, right: 0, bottom: 100, left: 50 },
     gridSize = Math.floor(width / 20),
     legendElementWidth = gridSize*2,
     buckets = 9,
-    colors =["#c82100","#c44100","#bf6000","#bb7d00","b79800","#b3b300","91ae00","#71aa00","#36a100","#009900"],
+    colors =["#c82100","#c44100","#bf6000","#bb7d00","b79800","#b3b300","#f9e235","#71aa00","#36a100","#009900"],
 
 
 
@@ -53,7 +53,7 @@ var timeLabels = svg.selectAll(".timeLabel")
 var heatMap = svg.selectAll(".hour")
   .data(data)
   .enter().append("rect")
-  .attr("x", function(d) { return (d.hour - requested_repayment_term+100)/10 * gridSize; })
+  .attr("x", function(d) { return ((d.hour - midpoint)/friendbin + gridxpad) * gridSize; })
   .attr("y", function(d) { return (d.day/100 - gridAmtSet+5) * gridSize; })
   .attr("rx", 4)
   .attr("ry", 4)
