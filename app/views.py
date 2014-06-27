@@ -110,7 +110,7 @@ def predict():
             session[key]=float(value)
 
 
-    print(session)
+    #print(session)
 
 
     if int(session["fbcon"]) == 1:
@@ -161,7 +161,7 @@ def predict():
     else:
         userHasWeb=0
         session['hasweb']=0
-    print(userHasWeb)
+   
     userPics = int(session['npics'])
     userFbFriends = int(session['fbfriends'])
     
@@ -192,7 +192,7 @@ def predict():
     # THESE MUST BE REORDERED ALPHABETICALLY AND ADD NVIDEOS=userVids IN THERE TOO!
     indie_vector =np.array([[userConFb, userGoal, userHasVid, userHasWeb, indieUserCat, userNRewards, userFbFriends, userPics, userLinks, userVids, userDuration, user200, user500, userTshirt]])
     kick_vector = np.array([[userConFb, userGoal, userHasVid, userHasWeb, kickUserCat, userNRewards, userFbFriends, userPics, userLinks, userVids, userDuration, user200, user500, userTshirt]])
-    print(indie_vector)
+    #print(indie_vector)
 
     kick_win = app.kick_classify.predict_proba(kick_vector)[0][1]
 
@@ -221,14 +221,23 @@ def predict():
     return render_template('predict.html', indiewin = indie_win, kickwin = kick_win, kickcash = kick_cash, indiecash = indie_cash, verdict = verdict)
 
 
-@app.route("/eval", methods=['GET','POST'])
+@app.route("/eval", methods=['POST','GET'])
 def eval():
 
+    
     #NEED TO GET IN THE indie_vector and kick_vector data from home
     #indieUserCat = 0
     #kickUserCat = 2
-    #print request.form['platform']
+    print(session)
+    indicator = request.form['button']
+    #print(type(session['goal']))
     
+    #if request.method == "POST":
+     #   print request.form['button']
+    #     if request.form['button']=='Kickstarter':
+    #         indicator =1
+    #     else:
+    #         indicator = 0
     # userTshirt = 0
     # userVids = 6
     # userLinks = 10
@@ -313,28 +322,31 @@ def eval():
         gridAmtSet = 5
 
     amount_pred = [100*i for i in range(gridAmtSet-5,gridAmtSet+5)]
-    
+    print(indicator)
     #create list of tuples for (amount, month, funding prob )
     predMatrix=[]
     for amount in amount_pred:
         for month in month_pred:
             
             #month = duration, amount = goal
-            indie_vector =np.array([[session['fbcon'], amount, session['hasvid'], session['hasweb'], session['indieUserCat'], session['perks'], session['fbfriends'], session['npics'], session['npics'], session['npics'], month, session['u200'], session['u500'], session['tshirt']]])
-            kick_vector = np.array([[session['fbcon'], amount, session['hasvid'], session['hasweb'], session['kickUserCat'], session['perks'], session['fbfriends'], session['npics'], session['npics'], session['npics'], month, session['u200'], session['u500'], session['tshirt']]])
+            indie_vector =np.array([[session['fbcon'], amount, session['hasvid'], session['hasweb'], session['indieUserCat'], session['perks'], session['fbfriends'], session['npics'], session['nlinks'], session['nvids'], month, session['u200'], session['u500'], session['tshirt']]])
+            kick_vector = np.array([[session['fbcon'], amount, session['hasvid'], session['hasweb'], session['kickUserCat'], session['perks'], session['fbfriends'], session['npics'], session['nlinks'], session['nvids'], month, session['u200'], session['u500'], session['tshirt']]])
 
             #print(kick_vector)
             #xin = np.append(continent_vec,sector_vec)
             #xin = np.append(xin,np.array( [borrowers_gender,loan_info[0]['description_num_languages'],amount,posted_date_months,month ] ))
 
-            #xin = np.array( [borrower_gender_map[loan_info[0]['borrowers_gender']],loan_info[0]['description_num_languages'],amount,country_map[loan_info[0]['location_country']], sector_map[loan_info[0]['sector']],activity_map[loan_info[0]['activity']],posted_date_months,loan_info[0]['partner_id'],month ]  )
-            #if request.form['platform']=='Kickstarter':
-            predprob = round(app.kick_classify.predict_proba(kick_vector)[0][1],2)
             
+            #xin = np.array( [borrower_gender_map[loan_info[0]['borrowers_gender']],loan_info[0]['description_num_languages'],amount,country_map[loan_info[0]['location_country']], sector_map[loan_info[0]['sector']],activity_map[loan_info[0]['activity']],posted_date_months,loan_info[0]['partner_id'],month ]  )
+            if indicator =="Indiegogo":
+                predprob = round(app.kick_classify.predict_proba(kick_vector)[0][1],2)
+            else:
+                predprob = round(app.indie_classify.predict_proba(kick_vector)[0][1],2)
+                
             #predprob = round(app.indie_classify.predict_proba(indie_vector)[0][1],1)
             #print(predprob)
             predMatrix.append((amount, month, predprob) )
-    
+    print(indicator)
     # write to tsv file
     ofile  = open('app/static/data.tsv', "wb")
     writer = csv.writer(ofile,delimiter='\t')
@@ -346,9 +358,9 @@ def eval():
 
     amount_pred_str = str(amount_pred)
     month_pred_str = str(month_pred)
-  
-    form = request.form
-    return render_template('eval.html', form = form, roundedReqAmt=roundedReqAmt,requested_repayment_term=requested_repayment_term,gridAmtSet=gridAmtSet,amount_pred_str=amount_pred_str,month_pred_str=month_pred_str,binreqLoanAmount=binreqLoanAmount, gridxpad= gridxpad, friendbin = friendbin)
+    print(indicator)
+    
+    return render_template('eval.html', roundedReqAmt=roundedReqAmt,requested_repayment_term=requested_repayment_term,gridAmtSet=gridAmtSet,amount_pred_str=amount_pred_str,month_pred_str=month_pred_str,binreqLoanAmount=binreqLoanAmount, gridxpad= gridxpad, friendbin = friendbin)
 
 @app.route('/process', methods=['GET','POST'])
 def process():

@@ -36,16 +36,17 @@
   <td></td>
   <td>
               <div class="form-group">
-            <form action = "/eval">
-          <input type = "hidden", name = "platform", value = "Kickstarter">
-            <button type="submit", action="/eval", class="btn btn-large btn-success" style="height:40px">Optimize This!</button>
-          </form></td>
+            <form method = "POST" action = "/eval">
+            <button type="submit" name = "button" value = "Kickstarter" class="btn btn-large btn-success" style="height:40px">Optimize This!</button>
+         <!--  </form> -->
+        </td>
+        <!-- </div> -->
       <td>
-        <div class = "form group">
-        <form action = '/eval'>
-              <input type = "hidden", name = "platform", value = "Indiegogo">
-            <button type="submit", action="/eval", class="btn btn-large btn-success" style="height:40px">Optimize This!</button>
+        <!-- <div class = "form group">
+        <form method = "POST" action = '/eval'> -->
+            <button type="submit" name = "button" value = "Indiegogo" class="btn btn-large btn-success" style="height:40px">Optimize This!</button>
           </form></td>
+        </div>
     </tr> 
 </table>
 </div>
