@@ -1,5 +1,5 @@
 # imports
-from flask import Flask
+from flask import Flask, g
 from flask_bootstrap import Bootstrap
 import flask_wtf 
 from flask import Flask, render_template
