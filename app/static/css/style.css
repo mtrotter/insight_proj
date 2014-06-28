@@ -36,10 +36,30 @@ body {
     font: normal 32px/1 'Genericons';
     vertical-align: middle;
 }
-
+/* Slideshare styles */
 .social-icons {
     display: inline-block;
     vertical-align: middle;
     margin: 10px;
 }
+
+   .slideshare-content {
+    width: 80%;
+    height: 50%;
+    margin: 0px auto;
+  }
+  .slideshare-embed-container {
+    height: 0;
+    width: 100%;
+    padding-bottom: 83.37%;
+    overflow: hidden;
+    position: relative;
+  }
+  .slideshare-embed-container iframe {
+    width: 90%;
+    height: 75%;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
 

@@ -85,7 +85,7 @@ def home():
 
 @app.route('/slides')
 def slides():
-    return render_template('slides.html')
+    return render_template('myslides.html')
 
 @app.route('/author')
 def author():
@@ -109,7 +109,10 @@ def predict():
         else:
             session[key]=float(value)
 
-
+    session['bodylen_kick']=3600
+    session['bodylen_ind']=6600
+    IndieBodyLen = session['bodylen_ind']
+    KickBodyLen = session['bodylen_kick']
     #print(session)
 
 
@@ -190,8 +193,8 @@ def predict():
 
     #print(session['duration'])
     # THESE MUST BE REORDERED ALPHABETICALLY AND ADD NVIDEOS=userVids IN THERE TOO!
-    indie_vector =np.array([[userConFb, userGoal, userHasVid, userHasWeb, indieUserCat, userNRewards, userFbFriends, userPics, userLinks, userVids, userDuration, user200, user500, userTshirt]])
-    kick_vector = np.array([[userConFb, userGoal, userHasVid, userHasWeb, kickUserCat, userNRewards, userFbFriends, userPics, userLinks, userVids, userDuration, user200, user500, userTshirt]])
+    indie_vector =np.array([[KickBodyLen, userConFb, userGoal, userHasVid, userHasWeb, indieUserCat, userNRewards, userFbFriends, userPics, userLinks, userVids, userDuration, user200, user500, userTshirt]])
+    kick_vector = np.array([[IndieBodyLen, userConFb, userGoal, userHasVid, userHasWeb, kickUserCat, userNRewards, userFbFriends, userPics, userLinks, userVids, userDuration, user200, user500, userTshirt]])
     #print(indie_vector)
 
     kick_win = app.kick_classify.predict_proba(kick_vector)[0][1]
@@ -329,8 +332,8 @@ def eval():
         for month in month_pred:
             
             #month = duration, amount = goal
-            indie_vector =np.array([[session['fbcon'], amount, session['hasvid'], session['hasweb'], session['indieUserCat'], session['perks'], session['fbfriends'], session['npics'], session['nlinks'], session['nvids'], month, session['u200'], session['u500'], session['tshirt']]])
-            kick_vector = np.array([[session['fbcon'], amount, session['hasvid'], session['hasweb'], session['kickUserCat'], session['perks'], session['fbfriends'], session['npics'], session['nlinks'], session['nvids'], month, session['u200'], session['u500'], session['tshirt']]])
+            indie_vector =np.array([[session['bodylen_ind'], session['fbcon'], amount, session['hasvid'], session['hasweb'], session['indieUserCat'], session['perks'], session['fbfriends'], session['npics'], session['nlinks'], session['nvids'], month, session['u200'], session['u500'], session['tshirt']]])
+            kick_vector = np.array([[session['bodylen_kick'], session['fbcon'], amount, session['hasvid'], session['hasweb'], session['kickUserCat'], session['perks'], session['fbfriends'], session['npics'], session['nlinks'], session['nvids'], month, session['u200'], session['u500'], session['tshirt']]])
 
             #print(kick_vector)
             #xin = np.append(continent_vec,sector_vec)
