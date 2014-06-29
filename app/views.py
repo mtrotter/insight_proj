@@ -228,61 +228,26 @@ def predict():
 def eval():
 
     
-    #NEED TO GET IN THE indie_vector and kick_vector data from home
-    #indieUserCat = 0
-    #kickUserCat = 2
+    #NOTE loan amount = goal
+    #repayment term = duration for indie, perks for kick
     print(session)
     indicator = request.form['button']
     #print(type(session['goal']))
     
-    #if request.method == "POST":
-     #   print request.form['button']
-    #     if request.form['button']=='Kickstarter':
-    #         indicator =1
-    #     else:
-    #         indicator = 0
-    # userTshirt = 0
-    # userVids = 6
-    # userLinks = 10
-    # userHasWeb = 1
-    # userPics = 4
-    # userFbFriends = 100
-    # userHasVid=1
-    # userConFb = 1
-
-    # userNRewards = 10
-    # user500 = 2
-    # user200 = 2
-    # userDuration = 30
-
-    # userGoal = 3000
-
-
-    # loan_id = pickle.load( open( "passloan.pkl", "rb" ) )
-    
-    # loan_info=sqlExec("SELECT  name, borrowers_gender, location_country,location_country_code, sector, loan_amount, description_num_languages, posted_date, terms_repayment_term, image_id from Loans where loan_id = %d;" % loan_id)
-    
-    # posted_date_months=loan_info[0]['posted_date'].month
-
-    # # change country code to continent
-    # continent_map = pickle.load( open( "continent_map.pkl", "rb" ) )
-    # continent = continent_map[loan_info[0]['location_country_code']]
-    # #vectorize contients and sectors
-    # (contdict,sectordict) = pickle.load( open( "contsect_dict.pkl", "rb" ) )
-    # continent_vec = contdict[continent]
-    # sector_vec = sectordict[loan_info[0]['sector']]
-    
-    # if loan_info[0]['borrowers_gender'] == 'F':
-    #     borrowers_gender = 1
-    # else:
-    #     borrowers_gender=0
-
-
-    # clf = pickle.load( open( "alg.pkl", "rb" ) )
+   
     
     requested_loan_amount = float(session['goal'])
    
-    requested_repayment_term = float(session['fbfriends'])
+    if indicator == "Indiegogo":
+        requested_repayment_term = float(session['duration'])
+        xlabelstr = "Campaign Duration"
+        print session['duration']
+        siteind = 1
+    else:
+        requested_repayment_term = float(session['perks'])
+        print session['perks']
+        xlabelstr = "Number of Perks Offered"
+        siteind = 0
    
     binreqLoanAmount=int(round(requested_loan_amount,-2)/100)
     if requested_repayment_term >=2000:
@@ -325,7 +290,7 @@ def eval():
         gridAmtSet = 5
 
     amount_pred = [100*i for i in range(gridAmtSet-5,gridAmtSet+5)]
-    print(indicator)
+    #print(indicator)
     #create list of tuples for (amount, month, funding prob )
     predMatrix=[]
     for amount in amount_pred:
@@ -333,7 +298,7 @@ def eval():
             
             #month = duration, amount = goal
             indie_vector =np.array([[session['bodylen_ind'], session['fbcon'], amount, session['hasvid'], session['hasweb'], session['indieUserCat'], session['perks'], session['fbfriends'], session['npics'], session['nlinks'], session['nvids'], month, session['u200'], session['u500'], session['tshirt']]])
-            kick_vector = np.array([[session['bodylen_kick'], session['fbcon'], amount, session['hasvid'], session['hasweb'], session['kickUserCat'], session['perks'], session['fbfriends'], session['npics'], session['nlinks'], session['nvids'], month, session['u200'], session['u500'], session['tshirt']]])
+            kick_vector = np.array([[session['bodylen_kick'], session['fbcon'], amount, session['hasvid'], session['hasweb'], session['kickUserCat'], month, session['fbfriends'], session['npics'], session['nlinks'], session['nvids'], session['duration'], session['u200'], session['u500'], session['tshirt']]])
 
             #print(kick_vector)
             #xin = np.append(continent_vec,sector_vec)
@@ -361,9 +326,10 @@ def eval():
 
     amount_pred_str = str(amount_pred)
     month_pred_str = str(month_pred)
-    print(indicator)
+    print(amount_pred_str)
+
     
-    return render_template('eval.html', roundedReqAmt=roundedReqAmt,requested_repayment_term=requested_repayment_term,gridAmtSet=gridAmtSet,amount_pred_str=amount_pred_str,month_pred_str=month_pred_str,binreqLoanAmount=binreqLoanAmount, gridxpad= gridxpad, friendbin = friendbin)
+    return render_template('eval.html', otherthing = siteind, roundedReqAmt=roundedReqAmt,requested_repayment_term=requested_repayment_term,gridAmtSet=gridAmtSet,amount_pred_str=amount_pred_str,month_pred_str=month_pred_str,binreqLoanAmount=binreqLoanAmount, gridxpad= gridxpad, friendbin = friendbin)
 
 @app.route('/process', methods=['GET','POST'])
 def process():

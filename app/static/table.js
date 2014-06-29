@@ -11,6 +11,13 @@ var margin = { top: 50, right: 0, bottom: 100, left: 50 },
 
 days = amount_pred_str, //$
 times = month_pred_str; //months
+siteind = otherthing
+
+if (siteind ==0){
+  xlabe = "Number of Perks";
+}else {
+  xlabe = "Campaign Duration (Days)";
+}
 
 d3.tsv("/static/data.tsv", function(d) {
   return {
@@ -90,12 +97,12 @@ d3.select("#chart").append("text")
 
 s = d3.selectAll("rect").on("mouseover",function(d){
     d3.select("#fund").html(function(){
-    return "<h4 > Funding Goal: $" + d.day.toString()+ "<br> Number of Facebook Friends: " + d.hour.toString() + "  </h4> <h4 style = 'color :blue' > Funding Probability: " + d.value.toString()
+    return "<h4 > Funding Goal: $" + d.day.toString()+ "<br>" + xlabe + ": " + d.hour.toString() + "  </h4> <h4 style = 'color :blue' > Funding Probability: " + d.value.toString()
                                                    })
                            })
 d3.select("#chart").append("text")
     .attr("id","monthaxislabel")
-    .text( " Number of Facebook Friends")
+    .text( xlabe)
     .style("position","absolute")
     .style("left","325px")
     .style("top","100px")
