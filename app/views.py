@@ -273,10 +273,10 @@ def eval():
     #      friendbin =15
     #      midpoint = 150
     else:
-        month_pred = [5*(i+1) for i in range(20)]
-        gridxpad = -1.25
-        friendbin = 5
-        midpoint = 50
+        month_pred = [2*(i+1) for i in range(20)]
+        gridxpad = -2
+        friendbin = 2
+        midpoint = 20
 
 
     if requested_loan_amount >=50000:
