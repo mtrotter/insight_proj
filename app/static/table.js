@@ -16,7 +16,7 @@ siteind = otherthing
 if (siteind ==0){
   xlabe = "Number of Perks";
 }else {
-  xlabe = "Campaign Duration (Days)";
+  xlabe = "Campaign Description Length (words)";
 }
 
 d3.tsv("/static/data.tsv", function(d) {
@@ -61,7 +61,7 @@ var heatMap = svg.selectAll(".hour")
   .data(data)
   .enter().append("rect")
   .attr("x", function(d) { return ((d.hour - midpoint)/friendbin + gridxpad) * gridSize; })
-  .attr("y", function(d) { return (d.day/100 - gridAmtSet+5) * gridSize; })
+  .attr("y", function(d) { return ((d.day - gridAmtSet*interval)/interval+4) * gridSize; })
   .attr("rx", 4)
   .attr("ry", 4)
   .attr("class", "hour bordered")
@@ -77,7 +77,7 @@ heatMap.transition().duration(1000)
 
 d3.selectAll("rect.bordered")
   .classed("target", function(d) {
-    return d.hour == requested_repayment_term && d.day ==100*binreqLoanAmount;
+    return d.hour == requested_repayment_term && d.day ==10*binreqLoanAmount;
   })
        
 console.log(requested_repayment_term)

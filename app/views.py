@@ -109,10 +109,10 @@ def predict():
         else:
             session[key]=float(value)
 
-    session['bodylen_kick']=3600
-    session['bodylen_ind']=6600
-    IndieBodyLen = session['bodylen_ind']
-    KickBodyLen = session['bodylen_kick']
+   # session['bodylen_kick']=3600
+    #session['bodylen_ind']=6600
+    IndieBodyLen = session['bodylen']
+    KickBodyLen = session['bodylen']
     #print(session)
 
 
@@ -239,9 +239,9 @@ def eval():
     requested_loan_amount = float(session['goal'])
    
     if indicator == "Indiegogo":
-        requested_repayment_term = float(session['duration'])
-        xlabelstr = "Campaign Duration"
-        print session['duration']
+        requested_repayment_term = float(session['bodylen'])
+        xlabelstr = "Story Length"
+        print session['bodylen']
         siteind = 1
     else:
         requested_repayment_term = float(session['perks'])
@@ -249,47 +249,58 @@ def eval():
         xlabelstr = "Number of Perks Offered"
         siteind = 0
    
-    binreqLoanAmount=int(round(requested_loan_amount,-2)/100)
-    if requested_repayment_term >=2000:
-         month_pred = [250*(i+1) for i in range(20)]
+  
+   # if requested_repayment_term >=2000:
+    if siteind ==  1: #indiegogo
+         month_pred = [500*(i+1) for i in range(20)]
          gridxpad = -1
-         friendbin = 250
-         midpoint = 2500
-    elif requested_repayment_term >=1000:
-         month_pred = [100*(i+1) for i in range(20)]
-         gridxpad = -1
-         friendbin = 100
-         midpoint = 1000
-    elif requested_repayment_term >=500:
-         month_pred = [50*(i+1) for i in range(20)]
-         gridxpad = -1.0
-         friendbin = 50
+         friendbin = 500
          midpoint = 500
-    elif requested_repayment_term >=300:
-         month_pred = [25*(i+1) for i in range(20)]
-         gridxpad = -1.1
-         friendbin = 25
-         midpoint = 250
-    elif requested_repayment_term >= 100:
-      #  month_pred = [15*i +(requested_repayment_term-100) for i in range(20)]
-         month_pred = [15*(i+1) for i in range(20)]
-         gridxpad = -1.1
-         friendbin =15
-         midpoint = 150
+    # elif requested_repayment_term >=1000:
+    #      month_pred = [100*(i+1) for i in range(20)]
+    #      gridxpad = -1
+    #      friendbin = 100
+    #      midpoint = 1000
+    # elif requested_repayment_term >=500:
+    #      month_pred = [50*(i+1) for i in range(20)]
+    #      gridxpad = -1.0
+    #      friendbin = 50
+    #      midpoint = 500
+    # elif requested_repayment_term >= 250:
+    #   #  month_pred = [15*i +(requested_repayment_term-100) for i in range(20)]
+    #      month_pred = [25*(i+1) for i in range(20)]
+    #      gridxpad = -1.1
+    #      friendbin =15
+    #      midpoint = 150
     else:
         month_pred = [5*(i+1) for i in range(20)]
         gridxpad = -1.25
         friendbin = 5
         midpoint = 50
 
-    roundedReqAmt = int(math.floor(requested_loan_amount/100))
+
+    if requested_loan_amount >=50000:
+        interval = 5000
+    elif requested_loan_amount >=1000:
+        interval = 1000
+    elif requested_loan_amount >=500:
+        interval = 100
+    else:
+        interval = 50
+
+    binreqLoanAmount=int(round(requested_loan_amount,-2)/interval)
+    roundedReqAmt = int(math.floor(requested_loan_amount/interval))
 
     if binreqLoanAmount >= 10:
         gridAmtSet = binreqLoanAmount
     else:
         gridAmtSet = 5
+   
 
-    amount_pred = [100*i for i in range(gridAmtSet-5,gridAmtSet+5)]
+    amount_pred = [interval*(i+1) for i in range(gridAmtSet-5,gridAmtSet+5)]
+   
+
+    print gridAmtSet
     #print(indicator)
     #create list of tuples for (amount, month, funding prob )
     predMatrix=[]
@@ -327,9 +338,10 @@ def eval():
     amount_pred_str = str(amount_pred)
     month_pred_str = str(month_pred)
     print(amount_pred_str)
+    print(month_pred_str)
 
     
-    return render_template('eval.html', otherthing = siteind, roundedReqAmt=roundedReqAmt,requested_repayment_term=requested_repayment_term,gridAmtSet=gridAmtSet,amount_pred_str=amount_pred_str,month_pred_str=month_pred_str,binreqLoanAmount=binreqLoanAmount, gridxpad= gridxpad, friendbin = friendbin)
+    return render_template('eval.html', interval = interval, otherthing = siteind, roundedReqAmt=roundedReqAmt,requested_repayment_term=requested_repayment_term,gridAmtSet=gridAmtSet,amount_pred_str=amount_pred_str,month_pred_str=month_pred_str,binreqLoanAmount=binreqLoanAmount, gridxpad= gridxpad, friendbin = friendbin)
 
 @app.route('/process', methods=['GET','POST'])
 def process():
