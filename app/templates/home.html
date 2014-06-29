@@ -60,11 +60,23 @@
           </div>
 
           <div class="form-group">
-          <label for="goal" class="col-md-20 control-label">Project Goal:</label>
-            <div class="col-md-20">
-            <input type="text" name="goal" id="projects" class="form-control input-medium"  placeholder="100000" value = "100000">
+         <label for "goal" class="col-md-20 control-label">Funding Goal:</label>
+           <div class="col-md-20">
+            <select name="goal" id="projects" class="form-control input-medium">
+              <option value="100" >100</option>
+                <option value="500">500</option>
+                <option value="1000">1000</option>
+                <option value="5000"selected>5000</option>
+                 <option value="10000" >10000</option>
+                <option value="15000">15000</option>
+                <option value="25000">25000</option>
+                <option value="50000">50000</option>
+                <option value = "100000">100000</option>
+                <option value = "500000">500000</option>
+              </select>
             </div>   
           </div>
+
            <div class = "form-group">
           <label for "fbcon" class="col-md-20 control-label">Will you connect to Facebook?</label>
             <input type="checkbox" name="fbcon" value="1" >Yes
@@ -98,10 +110,10 @@
           <label for="n_pics" class="col-md-20 control-label">How many pretty pictures?:</label>
             <div class="col-md-20">
             <select name="npics" id="npics" class="form-control input-medium">
-              <option value="1" >1</option>
+              <option value="1" selected>1</option>
                 <option value="2">2</option>
                 <option value="3">3</option>
-                <option value="4"selected>4</option>
+                <option value="4">4</option>
               </select>
             </div>   
           </div>
@@ -110,9 +122,9 @@
           <label for="nlinks" class="col-md-20 control-label">Links to other related sites?:</label>
             <div class="col-md-20">
             <select name="nlinks" id="nlinks" class="form-control input-medium">
-              <option value="1" >1</option>
+              <option value="1"selected >1</option>
                 <option value="2">2</option>
-                <option value="3"selected>3</option>
+                <option value="3">3</option>
                 <option value="4">4</option>
               </select>
             </div>   
@@ -122,9 +134,9 @@
           <label for="perks" class="col-md-20 control-label">How many different perks will you offer?:</label>
             <div class="col-md-20">
             <select name="perks" id="perks" class="form-control input-medium">
-                <option value="1">1</option>
+                <option value="1"selected>1</option>
                 <option value="5">2</option>
-                <option value="10"selected>3</option>
+                <option value="10">3</option>
                 <option value="20">4</option>
             </select>
 
