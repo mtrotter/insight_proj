@@ -240,22 +240,26 @@ def eval():
    
     if indicator == "Indiegogo":
         requested_repayment_term = float(session['bodylen'])
+        requested_loan_amount = float(session['duration'])
         xlabelstr = "Story Length"
+        ylabelstr = "Campaign Duration"
         print session['bodylen']
         siteind = 1
     else:
-        requested_repayment_term = float(session['perks'])
+        requested_repayment_term = float(session['bodylen'])
+        requested_loan_amount = float(session['perks'])
         print session['perks']
-        xlabelstr = "Number of Perks Offered"
+        xlabelstr = "Story Length"
+        ylabelstr = "Number of Perks"
         siteind = 0
    
   
    # if requested_repayment_term >=2000:
-    if siteind ==  1: #indiegogo
-         month_pred = [500*(i+1) for i in range(20)]
-         gridxpad = -1
-         friendbin = 500
-         midpoint = 500
+    #if siteind ==  1: #indiegogo
+    month_pred = [500*(i+1) for i in range(20)]
+    gridxpad = -1
+    friendbin = 500
+    midpoint = 500
     # elif requested_repayment_term >=1000:
     #      month_pred = [100*(i+1) for i in range(20)]
     #      gridxpad = -1
@@ -272,21 +276,22 @@ def eval():
     #      gridxpad = -1.1
     #      friendbin =15
     #      midpoint = 150
-    else:
-        month_pred = [2*(i+1) for i in range(20)]
-        gridxpad = -2
-        friendbin = 2
-        midpoint = 20
+    # else:
+    #     month_pred = [2*(i+1) for i in range(20)]
+    #     gridxpad = -2
+    #     friendbin = 2
+    #     midpoint = 20
 
 
-    if requested_loan_amount >=50000:
-        interval = 5000
-    elif requested_loan_amount >=1000:
-        interval = 1000
-    elif requested_loan_amount >=500:
-        interval = 100
+    #if requested_loan_amount >=50000:
+    #    interval = 5000
+    #elif requested_loan_amount >=1000:
+     #   interval = 1000
+    #elif requested_loan_amount >=500:
+    if siteind == 1:
+        interval = 10
     else:
-        interval = 50
+        interval = 5
 
     binreqLoanAmount=int(round(requested_loan_amount,-2)/interval)
     roundedReqAmt = int(math.floor(requested_loan_amount/interval))
@@ -308,8 +313,8 @@ def eval():
         for month in month_pred:
             
             #month = duration, amount = goal
-            indie_vector =np.array([[session['bodylen_ind'], session['fbcon'], amount, session['hasvid'], session['hasweb'], session['indieUserCat'], session['perks'], session['fbfriends'], session['npics'], session['nlinks'], session['nvids'], month, session['u200'], session['u500'], session['tshirt']]])
-            kick_vector = np.array([[session['bodylen_kick'], session['fbcon'], amount, session['hasvid'], session['hasweb'], session['kickUserCat'], month, session['fbfriends'], session['npics'], session['nlinks'], session['nvids'], session['duration'], session['u200'], session['u500'], session['tshirt']]])
+            indie_vector =np.array([[month, session['fbcon'], session['goal'], session['hasvid'], session['hasweb'], session['indieUserCat'], session['perks'], session['fbfriends'], session['npics'], session['nlinks'], session['nvids'], amount, session['u200'], session['u500'], session['tshirt']]])
+            kick_vector = np.array([[month, session['fbcon'], session['goal'], session['hasvid'], session['hasweb'], session['kickUserCat'], amount, session['fbfriends'], session['npics'], session['nlinks'], session['nvids'], session['duration'], session['u200'], session['u500'], session['tshirt']]])
 
             #print(kick_vector)
             #xin = np.append(continent_vec,sector_vec)
@@ -318,7 +323,7 @@ def eval():
             
             #xin = np.array( [borrower_gender_map[loan_info[0]['borrowers_gender']],loan_info[0]['description_num_languages'],amount,country_map[loan_info[0]['location_country']], sector_map[loan_info[0]['sector']],activity_map[loan_info[0]['activity']],posted_date_months,loan_info[0]['partner_id'],month ]  )
             if indicator =="Indiegogo":
-                predprob = round(app.kick_classify.predict_proba(kick_vector)[0][1],2)
+                predprob = round(app.kick_classify.predict_proba(indie_vector)[0][1],2)
             else:
                 predprob = round(app.indie_classify.predict_proba(kick_vector)[0][1],2)
                 
@@ -341,7 +346,7 @@ def eval():
     print(month_pred_str)
 
     
-    return render_template('eval.html', interval = interval, otherthing = siteind, roundedReqAmt=roundedReqAmt,requested_repayment_term=requested_repayment_term,gridAmtSet=gridAmtSet,amount_pred_str=amount_pred_str,month_pred_str=month_pred_str,binreqLoanAmount=binreqLoanAmount, gridxpad= gridxpad, friendbin = friendbin)
+    return render_template('eval.html', goal = float(session['goal']), interval = interval, otherthing = siteind, roundedReqAmt=roundedReqAmt,requested_repayment_term=requested_repayment_term,gridAmtSet=gridAmtSet,amount_pred_str=amount_pred_str,month_pred_str=month_pred_str,binreqLoanAmount=binreqLoanAmount, gridxpad= gridxpad, friendbin = friendbin)
 
 @app.route('/process', methods=['GET','POST'])
 def process():
