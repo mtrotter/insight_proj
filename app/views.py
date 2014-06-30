@@ -323,9 +323,9 @@ def eval():
             
             #xin = np.array( [borrower_gender_map[loan_info[0]['borrowers_gender']],loan_info[0]['description_num_languages'],amount,country_map[loan_info[0]['location_country']], sector_map[loan_info[0]['sector']],activity_map[loan_info[0]['activity']],posted_date_months,loan_info[0]['partner_id'],month ]  )
             if indicator =="Indiegogo":
-                predprob = round(app.kick_classify.predict_proba(indie_vector)[0][1],2)
+                predprob = round(app.indie_classify.predict_proba(indie_vector)[0][1],2)
             else:
-                predprob = round(app.indie_classify.predict_proba(kick_vector)[0][1],2)
+                predprob = round(app.kick_classify.predict_proba(kick_vector)[0][1],2)
                 
             #predprob = round(app.indie_classify.predict_proba(indie_vector)[0][1],1)
             #print(predprob)
