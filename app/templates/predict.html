@@ -23,28 +23,28 @@
       <td>  <img src="/static/images/indiegogoflat.jpeg" width=300px></td>
     </tr>
   <tr>
-      <td><p class = "lead">Probability of successful funding:</p></td>
-      <td>  {{(100*kickwin)|round(1)}}%</td>
-      <td>{{(100*indiewin)|round(1)}}%</td>
+      <td ><p class = "lead">Probability of successful funding:</p></td>
+      <td style = "text-align:center">  {{(100*kickwin)|round(1)}}%</td>
+      <td style = "text-align:center">{{(100*indiewin)|round(1)}}%</td>
     </tr>
 <tr>
       <td><p class = "lead">Expected pledges</p></td>
-      <td> ${{(kickcash)|round(2)}}</td>
-      <td>${{(indiecash)|round(2)}}</td>
+      <td style = "text-align:center"> ${{(kickcash)|round(2)}}<br>({{100*(kick_percent)|round(2)}}% of goal)</td>
+      <td style = "text-align:center">${{(indiecash)|round(2)}}<br>({{100*(indie_percent)|round(2)}}% of goal)</td>
     </tr>
 <tr>
   <td></td>
-  <td>
+  <td style = "text-align:center">
               <div class="form-group">
             <form method = "POST" action = "/eval">
-            <button type="submit" name = "button" value = "Kickstarter" class="btn btn-large btn-success" style="height:40px">Optimize This!</button>
+            <button type="submit" name = "button" value = "Kickstarter" class="btn btn-xlarge btn-success" style="height:50px">Optimize This!</button>
          <!--  </form> -->
         </td>
         <!-- </div> -->
-      <td>
+      <td style = "text-align:center">
         <!-- <div class = "form group">
         <form method = "POST" action = '/eval'> -->
-            <button type="submit" name = "button" value = "Indiegogo" class="btn btn-large btn-success" style="height:40px">Optimize This!</button>
+            <button type="submit" name = "button" value = "Indiegogo" class="btn btn-large btn-success" style="height:50px">Optimize This!</button>
           </form></td>
         </div>
     </tr> 

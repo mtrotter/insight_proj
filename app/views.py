@@ -209,10 +209,12 @@ def predict():
     else:
         verdict = "Looks like you should definitely GoGo"
 
-    kick_cash = app.kick_regress.predict(kick_vector)*userGoal
-    indie_cash = app.indie_regress.predict(indie_vector)*userGoal
 
+    kick_percent = app.kick_regress.predict(kick_vector)
+    indie_percent = app.indie_regress.predict(indie_vector)
 
+    kick_cash = kick_percent*userGoal
+    indie_cash = indie_percent*userGoal
 
 
     
@@ -221,7 +223,7 @@ def predict():
 
    
 
-    return render_template('predict.html', indiewin = indie_win, kickwin = kick_win, kickcash = kick_cash, indiecash = indie_cash, verdict = verdict)
+    return render_template('predict.html', indiewin = indie_win, kickwin = kick_win, kickcash = kick_cash, indiecash = indie_cash, kick_percent = kick_percent, indie_percent = indie_percent, verdict = verdict)
 
 
 @app.route("/eval", methods=['POST','GET'])
